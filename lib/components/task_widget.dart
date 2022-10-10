@@ -180,16 +180,3 @@ class _TaskState extends State<Task> {
     );
   }
 }
-
-class ContainerColor {
-  final Color backgroundColor;
-  ContainerColor({
-    required this.backgroundColor,
-  });
-}
-
-List<ContainerColor> cores = [
-  ContainerColor(backgroundColor: const Color(0xff0293ee)),
-  ContainerColor(backgroundColor: const Color(0xfff8b250)),
-  ContainerColor(backgroundColor: const Color(0xff1e224c)),
-];

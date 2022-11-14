@@ -1,7 +1,10 @@
 // ignore_for_file: must_be_immutable
 
 import 'package:flutter/material.dart';
+import 'package:task_organizer_app/data/inherited_task_data.dart';
 import 'package:task_organizer_app/screen/main_screen.dart';
+
+// import 'screen/form_screen.dart';
 
 void main() {
   runApp(const MyApp());
@@ -21,7 +24,7 @@ class MyApp extends StatelessWidget {
             .copyWith(
                 secondary: Colors.lightBlueAccent, tertiary: Colors.blueGrey),
       ),
-      home: MainScreen(),
+      home: TaskInheritedData(child: const MainScreen()),
     );
   }
 }

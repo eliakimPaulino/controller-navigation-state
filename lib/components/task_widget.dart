@@ -6,7 +6,7 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'dificulty_level.dart';
 
 class Task extends StatefulWidget {
-  const Task({
+  Task({
     Key? key,
     required this.tarefa,
     required this.img,
@@ -16,12 +16,12 @@ class Task extends StatefulWidget {
   final String img;
   final int dificulty;
 
+  int nivel = 0;
   @override
   State<Task> createState() => _TaskState();
 }
 
 class _TaskState extends State<Task> {
-  int nivel = 0;
   int dificultyCounter = 0;
 
   Color colorSet() {
@@ -33,6 +33,13 @@ class _TaskState extends State<Task> {
       return const Color.fromARGB(255, 43, 48, 108);
     }
     return Colors.blue;
+  }
+
+  bool assetOrigin() {
+    if (widget.img.contains('http')) {
+      return true;
+    }
+    return false;
   }
 
   @override
@@ -76,7 +83,7 @@ class _TaskState extends State<Task> {
                                 margin: EdgeInsets.only(
                                     left:
                                         MediaQuery.of(context).size.width / 8),
-                                width: 100,
+                                width: 110,
                                 child: Text(
                                   widget.tarefa,
                                   style: const TextStyle(
@@ -106,13 +113,13 @@ class _TaskState extends State<Task> {
                                       borderRadius: BorderRadius.circular(30))),
                               onPressed: () {
                                 setState(() {
-                                  nivel++;
-                                  if (((nivel / widget.dificulty) / 10) >= 1) {
+                                  widget.nivel++;
+                                  if (((widget.nivel / widget.dificulty) / 10) >= 1) {
                                     dificultyCounter++;
-                                    nivel = 0;
+                                    widget.nivel = 0;
                                   }
                                   if (dificultyCounter >= 4) {
-                                    nivel = 99;
+                                    widget.nivel = 99;
                                   }
                                 });
                               },
@@ -132,10 +139,6 @@ class _TaskState extends State<Task> {
             height: 120,
             width: 110,
             decoration: BoxDecoration(
-              image: DecorationImage(
-                image: AssetImage(widget.img),
-                fit: BoxFit.cover,
-              ),
               borderRadius: BorderRadius.circular(16.0),
               boxShadow: [
                 BoxShadow(
@@ -145,6 +148,12 @@ class _TaskState extends State<Task> {
                 ),
               ],
             ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(16),
+              child: assetOrigin()
+                  ? Image.network(widget.img, fit: BoxFit.cover)
+                  : Image.asset(widget.img, fit: BoxFit.cover),
+            ),
           ),
           Positioned(
             left: MediaQuery.of(context).size.width / 3,
@@ -152,7 +161,7 @@ class _TaskState extends State<Task> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
               children: [
-                (nivel < 99)
+                (widget.nivel < 99)
                     ? Row(children: [
                         SizedBox(
                           width: MediaQuery.of(context).size.width / 2.3,
@@ -160,13 +169,13 @@ class _TaskState extends State<Task> {
                             color: Colors.white,
                             backgroundColor: Colors.white60,
                             value: (widget.dificulty > 0)
-                                ? ((nivel / widget.dificulty) / 10)
+                                ? ((widget.nivel / widget.dificulty) / 10)
                                 : 1.0,
                           ),
                         ),
                         SizedBox(width: MediaQuery.of(context).size.width / 18),
                         Text(
-                          'Lvl: $nivel',
+                          'Lvl: ${widget.nivel}',
                           style: const TextStyle(color: Colors.white),
                         ),
                       ])
